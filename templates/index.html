@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Image Recognition System</title>
+
+   <link rel="stylesheet"
+href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>🖼️ Image Recognition System</h1>
+
+    <p>Upload an image and let AI recognize it.</p>
+
+    <form method="POST" enctype="multipart/form-data">
+
+        <input type="file" name="image" required>
+
+        <button type="submit">
+        Predict
+        </button>
+
+    </form>
+
+    {% if image_name %}
+
+    <br>
+
+    <img src="{{ url_for('static', filename='uploads/' + image_name) }}"
+         width="300"
+         style="border-radius:15px;">
+
+    {% endif %}
+
+    {% if predictions %}
+
+    <h2>Top 5 Predictions</h2>
+
+    <table>
+
+       <tr>
+          <th>Object</th>
+          <th>Confidence</th>
+       </tr>
+
+       {% for item in predictions %}
+
+       <tr>
+          <td>{{ item[0] }}</td>
+          <td>{{ item[1] }}%</td>
+       </tr>
+
+    {% endfor %}
+
+    </table>
+
+    {% endif %}
+
+</div>
+
+<div id="loader" class="loader" style="display:none;"></div>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>
