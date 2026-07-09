@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
 
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Image Recognition System</title>
 
-   <link rel="stylesheet"
-href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
 
 <div class="container">
@@ -18,52 +18,172 @@ href="{{ url_for('static', filename='css/style.css') }}">
 
     <p>Upload an image and let AI recognize it.</p>
 
+    <!-- Upload Form -->
     <form method="POST" enctype="multipart/form-data">
 
-        <input type="file" name="image" required>
+        <div class="upload-box" id="uploadBox">
+
+            <input type="file"
+                   id="image"
+                   name="image"
+                   required
+                   hidden>
+
+            <label for="image" id="uploadLabel">
+
+                <h2>📁 Drag & Drop Image Here</h2>
+
+                <p>or Click to Browse</p>
+
+            </label>
+
+        </div>
+        {% if error %}
+
+        <div class="error-box">
+             {{ error }}
+        </div>
+
+        {% endif %}
 
         <button type="submit">
-        Predict
+            🔍 Predict Image
         </button>
 
     </form>
 
+    <!-- Uploaded Image -->
     {% if image_name %}
 
-    <br>
-
-    <img src="{{ url_for('static', filename='uploads/' + image_name) }}"
-         width="300"
-         style="border-radius:15px;">
+        <img src="{{ url_for('static', filename='uploads/' + image_name) }}"
+             class="uploaded-image">
 
     {% endif %}
 
+    <!-- Image Details -->
+    {% if image_name %}
+
+    <div class="image-details">
+
+        <h2>📋 Image Details</h2>
+
+        <p><strong>📄 File Name:</strong> {{ image_name }}</p>
+
+        <p><strong>💾 File Size:</strong> {{ image_size }} KB</p>
+
+        <p><strong>📏 Resolution:</strong> {{ resolution }}</p>
+
+        <p><strong>⚡ Prediction Time:</strong> {{ prediction_time }} sec</p>
+
+    </div>
+
+    {% endif %}
+
+    <!-- Prediction Result -->
     {% if predictions %}
 
-    <h2>Top 5 Predictions</h2>
+    <div class="result-card">
 
-    <table>
+        <h2>🧠 AI Prediction Result</h2>
 
-       <tr>
-          <th>Object</th>
-          <th>Confidence</th>
-       </tr>
+        <div class="best-match">
 
-       {% for item in predictions %}
+            <h3>🏆 Best Match</h3>
 
-       <tr>
-          <td>{{ item[0] }}</td>
-          <td>{{ item[1] }}%</td>
-       </tr>
+            <h1>{{ predictions[0][0] }}</h1>
 
-    {% endfor %}
+            <p>{{ predictions[0][1] }}% Confidence</p>
 
-    </table>
+        </div>
+
+        <h3>Top 5 Predictions</h3>
+
+        {% for item in predictions %}
+
+        <div class="prediction-item">
+
+            <div class="prediction-header">
+
+                <span>{{ item[0] }}</span>
+
+                <span>{{ item[1] }}%</span>
+
+            </div>
+
+            <div class="progress">
+
+                <div class="progress-bar"
+                     style="width: {{ item[1] }}%;"></div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
 
     {% endif %}
+
+    {% if history %}
+
+    <div class="history-card">
+
+         <h2>📜 Prediction History</h2>
+
+        <table class="history-table">
+
+           <tr>
+              <th>Image</th>
+              <th>Prediction</th>
+              <th>Confidence</th>
+              <th>Time</th>
+            </tr>
+
+            {% for item in history %}
+
+            <tr>
+
+                <td class="image-cell">
+
+                    <img src="{{ url_for('static', filename='uploads/' + item.path) }}"
+                          class="history-image">
+
+                
+                
+                
+                          <p>{{ item.image[:20] }}{% if item.image|length > 20 %}...{% endif %}</p>
+
+                </td>
+
+                <td>{{ item.prediction }}</td>
+
+                <td>{{ item.confidence }}%</td>
+
+                <td>{{ item.time }}</td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+        <br>
+
+        <a href="/clear-history">
+              <button class="clear-btn">
+                🗑️ Clear History
+              </button>
+
+        </a>
+
+    </div>
+
+{% endif %}
 
 </div>
 
+<!-- Loader -->
 <div id="loader" class="loader" style="display:none;"></div>
 
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>

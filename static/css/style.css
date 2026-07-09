@@ -1,20 +1,18 @@
 body{
     margin:0;
+    padding:30px;
     font-family:Arial,sans-serif;
     background:linear-gradient(135deg,#667eea,#4b5fa2);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
 }
 
 .container{
     background:white;
-    padding:40px;
+    width:600px;
+    margin:auto;
+    padding:30px;
     border-radius:20px;
-    width:500px;
-    text-align:center;
     box-shadow:0 10px 30px rgba(0,0,0,.3);
+    text-align:center;
 }
 
 h1{
@@ -27,12 +25,15 @@ p{
 
 input{
     width:100%;
-    margin-top:20px;
     padding:12px;
+    margin-top:20px;
+    margin-bottom:20px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    box-sizing:border-box;
 }
 
 button{
-    margin-top:20px;
     width:100%;
     padding:12px;
     border:none;
@@ -41,12 +42,87 @@ button{
     color:white;
     font-size:18px;
     cursor:pointer;
+    transition:.3s;
 }
 
 button:hover{
     background:#5a67d8;
 }
+
+.uploaded-image{
+    width:300px;
+    border-radius:15px;
+    margin-top:20px;
+    box-shadow:0 5px 15px rgba(0,0,0,.2);
+}
+
+/* Result Card */
+
+.result-card{
+
+    margin-top:30px;
+    padding:20px;
+    border-radius:15px;
+    background:#f8f9ff;
+    box-shadow:0 5px 15px rgba(0,0,0,.15);
+
+}
+
+.best-match{
+
+    background:#5a67d8;
+    color:white;
+    padding:20px;
+    border-radius:15px;
+    margin-bottom:25px;
+
+}
+
+.best-match h1{
+
+    margin:10px 0;
+    font-size:34px;
+
+}
+
+.prediction-item{
+
+    margin-bottom:20px;
+
+}
+
+.prediction-header{
+
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:6px;
+    font-weight:bold;
+
+}
+
+.progress{
+
+    width:100%;
+    height:15px;
+    background:#ddd;
+    border-radius:20px;
+    overflow:hidden;
+
+}
+
+.progress-bar{
+
+    height:100%;
+    background:linear-gradient(90deg,#ea9b66,#5a67d8);
+    border-radius:20px;
+    transition:1s;
+
+}
+
+/* Loading Spinner */
+
 .loader{
+
     border:8px solid #f3f3f3;
     border-top:8px solid #5d67d8;
     border-radius:50%;
@@ -54,6 +130,7 @@ button:hover{
     height:60px;
     margin:20px auto;
     animation:spin 1s linear infinite;
+
 }
 
 @keyframes spin{
@@ -67,3 +144,190 @@ transform:rotate(360deg);
 }
 
 }
+
+/* Mobile Responsive */
+
+@media(max-width:650px){
+
+.container{
+
+    width:90%;
+    padding:20px;
+
+}
+
+.uploaded-image{
+
+    width:100%;
+
+}
+
+.best-match h1{
+
+    font-size:26px;
+
+}
+
+}
+
+/* Drag & Drop Upload Box */
+
+.upload-box{
+
+    margin-top:20px;
+    border:3px dashed #5a67d8;
+    border-radius:15px;
+    padding:40px;
+    cursor:pointer;
+    transition:.3s;
+    background:#f8f9ff;
+
+}
+
+.upload-box:hover{
+
+    background:#eef2ff;
+
+}
+
+.upload-box.dragover{
+
+    background:#dbeafe;
+    border-color:#ea9b66;
+
+}
+
+.upload-box h2{
+
+    margin:0;
+    color:#5a67d8;
+
+}
+
+.upload-box p{
+
+    color:#666;
+}
+
+.image-details{
+
+    margin-top:20px;
+    background:#f8f9ff;
+    border-radius:15px;
+    padding:20px;
+    text-align:left;
+    box-shadow:0 5px 15px rgba(0,0,0,.15);
+
+}
+
+.image-details h2{
+
+    text-align:center;
+    color:#5a67d8;
+    margin-bottom:15px;
+
+}
+
+.image-details p{
+
+    font-size:16px;
+    margin:10px 0;
+    color:#333;
+
+}
+
+.history-card{
+
+    margin-top:30px;
+    background:#ffffff;
+    border-radius:15px;
+    padding:20px;
+    box-shadow:0 5px 15px rgba(0,0,0,.15);
+
+}
+
+.history-card h2{
+
+    text-align:center;
+    color:#5a67d8;
+    margin-bottom:20px;
+
+}
+
+.history-table{
+    width:100%;
+    border-collapse:collapse;
+    table-layout:fixed;
+}
+
+.history-table th,
+.history-table td{
+    text-align:center;
+    padding:15px;
+    word-wrap:break-word;
+}
+
+.image-cell{
+    width:220px;
+}
+
+.history-image{
+    width:80px;
+    height:80px;
+    object-fit:cover;
+    border-radius:10px;
+    margin-bottom:8px;
+}
+
+.image-cell p{
+    font-size:13px;
+    margin:0;
+}
+
+.history-table tr:hover{
+
+    background:#f4f6ff;
+
+}
+
+
+.clear-btn{
+
+    margin-top:20px;
+
+    background:#e74c3c;
+
+    color:white;
+
+    border:none;
+
+    padding:12px 25px;
+
+    
+
+    transition:.3s;
+
+}
+
+.clear-btn:hover{
+
+    background:#c0392b;
+
+}
+
+.error-box{
+
+    margin-top:20px;
+    background:#ffe6e6;
+    color:#d63031;
+
+    padding:15px;
+
+    border-radius:10px;
+
+    font-weight:bold;
+
+    border:1px solid #ff7675;
+
+}
+
