@@ -331,3 +331,53 @@ transform:rotate(360deg);
 
 }
 
+.delete-btn{
+
+    background:#e74c3c;
+    color:white;
+
+    border:none;
+
+    padding:8px 12px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-size:14px;
+
+}
+
+.delete-btn:hover{
+
+    background:#c0392b;
+
+}
+
+.download-btn{
+
+    margin-top:20px;
+
+    background:#2ecc71;
+
+    color:white;
+
+    border:none;
+
+    padding:12px 20px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+    transition:.3s;
+
+}
+
+.download-btn:hover{
+
+    background:#27ae60;
+
+}

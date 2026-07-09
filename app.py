@@ -2,6 +2,8 @@ history = []
 
 from flask import Flask, render_template, request , redirect
 from predict import predict_image
+from pdf_report import create_pdf
+from flask import send_file
 from datetime import datetime
 from PIL import Image
 import os
@@ -96,14 +98,21 @@ def home():
 
                 prediction = predictions[0][0]
                 confidence = predictions[0][1]
+                print(confidence)
+                print(type(confidence))
 
                 # Save History
-                history.insert(0, {
-                    "image": image_name,
-                    "prediction": prediction,
-                    "confidence": confidence,
-                    "time": datetime.now().strftime("%I:%M %p"),
-                    "path": image_name
+                history.insert(0,{
+                   "id": len(history),
+                   "image": image_name,
+                   "prediction": prediction,
+                   "confidence": confidence,
+                   "time": datetime.now().strftime("%I:%M %p"),
+                   "path": image_name,
+
+                   "image_size": image_size,
+                   "resolution": resolution,
+                   "prediction_time": prediction_time
                 })
 
     return render_template(
@@ -118,6 +127,14 @@ def home():
         history=history,
         error=error
     )
+@app.route("/delete-history/<int:item_id>")
+def delete_history(item_id):
+
+    global history
+
+    history = [item for item in history if item["id"] != item_id]
+
+    return redirect("/")
 
 @app.route("/clear-history")
 def clear_history():
@@ -125,6 +142,29 @@ def clear_history():
     history.clear()
 
     return redirect("/")
+
+@app.route("/download-report")
+def download_report():
+
+    if not history:
+        return "No prediction available."
+
+    latest = history[0]
+
+    pdf_file = create_pdf(
+       latest["image"],
+       latest["prediction"],
+       latest["confidence"],
+       latest["image_size"],
+       latest["resolution"],
+       latest["prediction_time"],
+       os.path.join(
+        app.config["UPLOAD_FOLDER"],
+        latest["path"]
+       )
+    )
+
+    return send_file(pdf_file, as_attachment=True)
 
 if __name__ == "__main__":
     app.run(debug=True)

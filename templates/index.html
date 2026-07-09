@@ -121,6 +121,14 @@
 
         {% endfor %}
 
+        <br>
+  
+        <a href="/download-report">
+           <button class="download-btn">
+             📄 Download PDF Report
+           </button>
+        </a>
+
     </div>
 
     {% endif %}
@@ -138,6 +146,7 @@
               <th>Prediction</th>
               <th>Confidence</th>
               <th>Time</th>
+              <th>Action</th>
             </tr>
 
             {% for item in history %}
@@ -161,6 +170,14 @@
                 <td>{{ item.confidence }}%</td>
 
                 <td>{{ item.time }}</td>
+
+                <td>
+                   <a href="/delete-history/{{ item.id }}">
+                   <button class="delete-btn">
+                       🗑 Delete
+                   </button>
+                   </a>
+                </td>
 
             </tr>
 
